@@ -28,6 +28,8 @@ def main():
                         help='Train form evaluator (action classifier + quality regressor)')
     parser.add_argument('--infer', action='store_true',
                         help='Launch real-time webcam inference')
+    parser.add_argument('--infer-classical', action='store_true', dest='infer_classical',
+                        help='Launch the initial classical ML pose inference approach')
     parser.add_argument('--all', action='store_true',
                         help='Run full pipeline (extract -> train -> evaluate -> form-train)')
     parser.add_argument('--action', type=str, default=None,
@@ -37,7 +39,7 @@ def main():
 
     # Default to --all if no flags
     if not any([args.extract, args.train, args.evaluate, args.form_train,
-                args.infer, args.all]):
+                args.infer, args.infer_classical, args.all]):
         args.all = True
 
     start = time.time()
@@ -83,6 +85,11 @@ def main():
     if args.infer:
         from inference import main as inference_main
         inference_main()
+
+    # ── INFER CLASSICAL (LEGACY) ──
+    if args.infer_classical:
+        from classical_inference import run_classical_inference
+        run_classical_inference()
 
     elapsed = time.time() - start
     print(f"\nPipeline completed in {elapsed:.1f}s")

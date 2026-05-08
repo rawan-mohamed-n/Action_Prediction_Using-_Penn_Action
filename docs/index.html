@@ -346,39 +346,44 @@
             <p class="section-desc">Eight Python modules, each with a single responsibility. Run individually or orchestrate end-to-end via CLI.</p>
             <div class="pipeline">
                 <div class="pipeline-step">
-                    <div class="step-meta">config.py</div>
+                    <div class="step-meta">pipeline/config.py</div>
                     <h4>Central Configuration</h4>
                     <p>All paths, joint definitions, feature schema, model paths, and per-action settings &mdash; single source of truth for batch and real-time.</p>
                 </div>
                 <div class="pipeline-step">
-                    <div class="step-meta">preprocessing.py</div>
+                    <div class="step-meta">pipeline/preprocessing.py</div>
                     <h4>Raw Data &rarr; Clean DataFrames</h4>
                     <p>.mat loading, visibility masking, mirror symmetry, single/dual anchor interpolation, viewpoint detection, baseline frame selection.</p>
                 </div>
                 <div class="pipeline-step">
-                    <div class="step-meta">feature_extraction.py</div>
+                    <div class="step-meta">pipeline/feature_extraction.py</div>
                     <h4>Clean Data &rarr; Feature CSVs</h4>
                     <p>Batch processes all sequences: baselines, kinematic angles, joints/angles CSVs, summarizes and normalizes.</p>
                 </div>
                 <div class="pipeline-step">
-                    <div class="step-meta">training.py</div>
+                    <div class="step-meta">pipeline/training.py</div>
                     <h4>Features &rarr; Trained Models</h4>
                     <p>Loads summaries, one-hot encodes, removes correlated features, applies PCA, trains Random Forest and SVM.</p>
                 </div>
                 <div class="pipeline-step">
-                    <div class="step-meta">evaluation.py</div>
+                    <div class="step-meta">pipeline/evaluation.py</div>
                     <h4>Models &rarr; Reports &amp; Plots</h4>
                     <p>Classification reports, confusion matrices, feature importance, PCA variance, correlation heatmap.</p>
                 </div>
                 <div class="pipeline-step">
-                    <div class="step-meta">form_evaluator_training.py</div>
+                    <div class="step-meta">pipeline/form_evaluator_training.py</div>
                     <h4>Form Evaluator Models</h4>
                     <p>Trains StandardScaler, RF action classifier (98.8% acc), and IsolationForest quality regressor (0.006 MSE). Exports .pkl artifacts.</p>
                 </div>
                 <div class="pipeline-step">
-                    <div class="step-meta">inference.py</div>
+                    <div class="step-meta">pipeline/inference.py</div>
                     <h4>Real-Time Webcam Inference</h4>
                     <p>Threaded camera, MediaPipe Pose, sliding-window features, idle detection, and live HUD overlay with action + quality.</p>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-meta">pipeline/classical_inference.py</div>
+                    <h4>Legacy Classical Approach</h4>
+                    <p>Architectural skeleton of the initial HOG+SVM + CSRT tracking design. Documented for narrative completeness of the architectural evolution.</p>
                 </div>
             </div>
         </section>
@@ -467,15 +472,16 @@
                 <span class="comment"># Install dependencies</span><br>
                 <span class="cmd">pip install</span> -r requirements.txt<br><br>
                 <span class="comment"># Run the full pipeline (extract → train → evaluate → form-train)</span><br>
-                <span class="cmd">python</span> run_pipeline.py --all<br><br>
+                <span class="cmd">python</span> pipeline/run_pipeline.py --all<br><br>
                 <span class="comment"># Individual stages</span><br>
-                <span class="cmd">python</span> run_pipeline.py --extract<br>
-                <span class="cmd">python</span> run_pipeline.py --train<br>
-                <span class="cmd">python</span> run_pipeline.py --evaluate<br>
-                <span class="cmd">python</span> run_pipeline.py --form-train<br><br>
+                <span class="cmd">python</span> pipeline/run_pipeline.py --extract<br>
+                <span class="cmd">python</span> pipeline/run_pipeline.py --train<br>
+                <span class="cmd">python</span> pipeline/run_pipeline.py --evaluate<br>
+                <span class="cmd">python</span> pipeline/run_pipeline.py --form-train<br><br>
                 <span class="comment"># Launch real-time webcam inference</span><br>
-                <span class="cmd">python</span> run_pipeline.py --infer<br>
-                <span class="cmd">python</span> run_pipeline.py --infer --source 0<br>
+                <span class="cmd">python</span> pipeline/run_pipeline.py --infer<br>
+                <span class="comment"># Launch the legacy classical approach</span><br>
+                <span class="cmd">python</span> pipeline/run_pipeline.py --infer-classical<br>
             </div>
         </section>
 
@@ -484,20 +490,24 @@
             <div class="section-label">Output</div>
             <h2 class="section-title">Generated File Structure</h2>
             <div class="tree">
+                <span class="dir">notebooks/</span> <span class="desc">← Cleaned EDA and experimental notebooks</span><br>
+                ├── <span class="file">classical_ml_pose_estimation.ipynb</span> <span class="desc">← the failure approach</span><br>
+                ├── <span class="file">Exploration.ipynb</span><br>
+                └── <span class="file">model_training.ipynb</span><br><br>
+                <span class="dir">pipeline/</span> <span class="desc">← Core modular codebase</span><br>
+                ├── <span class="file">run_pipeline.py</span><br>
+                ├── <span class="file">inference.py</span><br>
+                └── <span class="file">classical_inference.py</span><br><br>
                 <span class="dir">output/</span><br>
                 ├── <span class="dir">jump_rope/</span><br>
                 │&nbsp;&nbsp; ├── <span class="file">jump_rope_joints.csv</span><br>
-                │&nbsp;&nbsp; ├── <span class="file">jump_rope_angles.csv</span><br>
                 │&nbsp;&nbsp; └── <span class="file">jump_rope_normalized_summary.csv</span><br>
-                ├── <span class="dir">squat/</span> <span class="desc">pushup/ pullup/ (same structure)</span><br>
-                ├── <span class="file">confusion_matrices.png</span> <span class="desc">← both models side-by-side</span><br>
-                ├── <span class="file">feature_importance.png</span><br>
-                ├── <span class="file">pca_variance.png</span><br>
+                ├── <span class="file">confusion_matrices.png</span><br>
                 └── <span class="file">correlation_matrix.png</span><br><br>
                 <span class="dir">Model Artifacts</span> <span class="desc">(project root)</span><br>
-                ├── <span class="file">scaler.pkl</span> <span class="desc">← fitted StandardScaler</span><br>
-                ├── <span class="file">action_classifier.pkl</span> <span class="desc">← RF action model</span><br>
-                └── <span class="file">quality_regressor.pkl</span> <span class="desc">← RF quality model</span>
+                ├── <span class="file">scaler.pkl</span><br>
+                ├── <span class="file">action_classifier.pkl</span><br>
+                └── <span class="file">quality_regressor.pkl</span>
             </div>
         </section>
 

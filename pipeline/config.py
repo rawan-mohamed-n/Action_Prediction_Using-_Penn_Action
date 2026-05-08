@@ -13,11 +13,11 @@ from pathlib import Path
 # PATHS
 # ─────────────────────────────────────────────────────────────────────────────
 
-PROJECT_ROOT  = Path(__file__).resolve().parent
-DATASET_ROOT  = './Penn_Action/Penn_Action'
+PROJECT_ROOT  = Path(__file__).resolve().parent.parent
+DATASET_ROOT  = PROJECT_ROOT / 'Penn_Action' / 'Penn_Action'
 FRAMES_DIR    = os.path.join(DATASET_ROOT, 'frames')
 LABELS_DIR    = os.path.join(DATASET_ROOT, 'labels')
-OUTPUT_DIR    = './output'
+OUTPUT_DIR    = PROJECT_ROOT / 'output'
 
 # ─────────────────────────────────────────────────────────────────────────────
 # MODEL ARTIFACT PATHS  (produced by form_evaluator_training.py)

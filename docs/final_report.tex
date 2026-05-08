@@ -100,6 +100,54 @@ Like any system that tries to do something meaningful in the real world, ours ra
     \item \textbf{There Is No Ground Truth:} This was the most uncomfortable reality of the project. No major dataset ships with frame-by-frame clinical quality annotations. A physiotherapist doesn't label every squat in a video file. We couldn't simply supervise our quality model the conventional way. Our answer was a \textbf{self-supervised} proxy labeling system: during training, an Isolation Forest scores each repetition against the population distribution, mathematically flagging deviations from the statistical norm. It's not a clinician's judgment, but it's rigorous, reproducible, and far better than guessing.
 \end{enumerate}
 
+\section{Initial Approach: The Direct Kinematic Prediction}
+Before arriving at the current architecture, our initial design attempted to eliminate deep learning entirely at inference time. The goal was to build a purely classical computer vision pipeline for 3D pose estimation that could run efficiently on any device without the computational overhead of models like MediaPipe.
+
+\subsection{Methodology}
+In this approach, MediaPipe was used \textit{only} during training to generate 3D ground truth labels. For inference, the pipeline relied on a Histogram of Oriented Gradients (HOG) and SVM person detector coupled with a CSRT tracker. For every frame, we extracted a massive 10,498-dimensional feature vector, which included global HOG features, five body-part specific HOG patches, dense optical flow, silhouette masking, and geometric limb ratios. 
+
+These dense features were fed into classical regressors (Ridge, SVR, Random Forest, and XGBoost) trained specifically for each exercise type to predict the 17 3D joints directly. 
+
+\subsection{Results and Qualitative Failures}
+Quantitatively, the models appeared to perform reasonably well on the validation set, with the best models (SVR and XGBoost) achieving a Mean Per Joint Position Error (MPJPE) of approximately 0.11 and a PCK@0.15 of around 80\% (Figure \ref{fig:failure_model_comparison}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/failure_img_1.png}
+    \caption{Model comparison for the classical pose estimators across different exercises. While quantitative metrics seemed viable, they masked severe qualitative instability.}
+    \label{fig:failure_model_comparison}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/failure_img_2.png}
+    \caption{Per-joint Mean Per Joint Position Error (MPJPE). Distal joints like ankles and wrists showed significantly higher error rates, contributing to the skeletal collapse seen in inference.}
+    \label{fig:failure_per_joint}
+\end{figure}
+
+However, qualitative evaluation immediately revealed catastrophic tracking failures in real-world conditions. As shown in Figure \ref{fig:failure_inference}, the regressors lacked the semantic understanding of a human body topology. In various frames, the model would hallucinate the skeleton, fitting the joints onto the weights of a barbell rather than the user's shoulders. In other instances, it would violently collapse the entire skeletal structure, declaring a single hand as the whole person. 
+
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/failure_img_3.png}
+    \caption{Inference strip demonstrating severe qualitative failures. The classical regressors often hallucinated poses, fitting joints to environmental objects like weights on a bar or collapsing the entire skeleton into a single hand.}
+    \label{fig:failure_inference}
+\end{figure*}
+
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/failure_img_4.png}
+    \caption{Joint angles over time for a squat sequence. The high-frequency noise and sudden jumps illustrate the lack of temporal consistency in the classical regressor's spatial predictions.}
+    \label{fig:failure_angles}
+\end{figure*}
+
+\subsection{The Chicken-and-Egg Problem}
+Beyond the tracking instability and the heavy computational footprint of extracting 10,498 features and dense optical flow per frame, the architecture suffered from a fatal logical flaw: the ``Chicken-and-Egg'' problem.
+
+Because the pose regressors were trained \textit{per exercise} (e.g., a specific model for squats, another for pushups), the system needed to classify the user's action before it could accurately track their joints. However, the action classifier itself requires stable joint trajectories to predict the exercise. This circular dependency meant the system would fail catastrophically if the user performed an unknown action or transitioned between exercises, as the wrong pose model would be loaded, leading to completely corrupted kinematic data.
+
+This failure drove the final architectural decision: we flipped the paradigm. Instead of using classical ML for the fragile task of spatial tracking, we adopted MediaPipe for robust spatial extraction, and shifted the classical ML focus entirely to temporal action classification and quality scoring.
+
 \section{Proposed System Overview}
 At its core, the system is a software-defined diagnostic tool that runs entirely through a single RGB camera — no wearables, no depth sensors, nothing that needs to be shipped or charged. A patient just opens the application, stands in front of their phone or laptop camera, and starts moving.
 

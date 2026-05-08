@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.5.8)  8 MAY 2026 21:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.5.8)  8 MAY 2026 22:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -499,7 +499,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-<figures/logo.png, id=114, 106.3975pt x 100.375pt>
+<figures/logo.png, id=130, 106.3975pt x 100.375pt>
 File: figures/logo.png Graphic file (type png)
 <use figures/logo.png>
 Package pdftex.def Info: figures/logo.png  used on input line 86.
@@ -510,83 +510,104 @@ Package pdftex.def Info: figures/logo.png  used on input line 86.
  <./figures/logo.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-<figures/fig1_architecture.png, id=143, 805.8105pt x 461.8053pt>
-File: figures/fig1_architecture.png Graphic file (type png)
-<use figures/fig1_architecture.png>
-Package pdftex.def Info: figures/fig1_architecture.png  used on input line 110.
-(pdftex.def)             Requested size: 247.5389pt x 141.86159pt.
+<figures/failure_img_1.png, id=159, 1293.633pt x 357.7365pt>
+File: figures/failure_img_1.png Graphic file (type png)
+<use figures/failure_img_1.png>
+Package pdftex.def Info: figures/failure_img_1.png  used on input line 116.
+(pdftex.def)             Requested size: 247.5389pt x 68.45099pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [2]
-Underfull \hbox (badness 1552) in paragraph at lines 117--117
+<figures/failure_img_2.png, id=176, 1004.553pt x 281.853pt>
+File: figures/failure_img_2.png Graphic file (type png)
+<use figures/failure_img_2.png>
+Package pdftex.def Info: figures/failure_img_2.png  used on input line 123.
+(pdftex.def)             Requested size: 247.5389pt x 69.4524pt.
+<figures/failure_img_3.png, id=178, 1438.173pt x 229.0959pt>
+File: figures/failure_img_3.png Graphic file (type png)
+<use figures/failure_img_3.png>
+Package pdftex.def Info: figures/failure_img_3.png  used on input line 132.
+(pdftex.def)             Requested size: 512.14963pt x 81.58304pt.
+<figures/failure_img_4.png, id=179, 1293.633pt x 286.1892pt>
+File: figures/failure_img_4.png Graphic file (type png)
+<use figures/failure_img_4.png>
+Package pdftex.def Info: figures/failure_img_4.png  used on input line 139.
+(pdftex.def)             Requested size: 512.14963pt x 113.29895pt.
+<figures/fig1_architecture.png, id=181, 805.8105pt x 461.8053pt>
+File: figures/fig1_architecture.png Graphic file (type png)
+<use figures/fig1_architecture.png>
+Package pdftex.def Info: figures/fig1_architecture.png  used on input line 158.
+(pdftex.def)             Requested size: 247.5389pt x 141.86159pt.
+
+Underfull \hbox (badness 1552) in paragraph at lines 165--165
 |[]\T1/cmr/bx/n/12 Module 1: Spa-tial Ex-trac-tion &
  []
 
-
+[3 <./figures/failure_img_1.png> <./figures/failure_img_2.png> <./figures/fig1_architecture.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [3 <./figures/fig1_architecture.png>]
+ [4 <./figures/failure_img_3.png> <./figures/failure_img_4.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-<figures/fig2_dataset_stats.png, id=167, 469.755pt x 203.8014pt>
+<figures/fig2_dataset_stats.png, id=201, 469.755pt x 203.8014pt>
 File: figures/fig2_dataset_stats.png Graphic file (type png)
 <use figures/fig2_dataset_stats.png>
-Package pdftex.def Info: figures/fig2_dataset_stats.png  used on input line 161.
+Package pdftex.def Info: figures/fig2_dataset_stats.png  used on input line 209.
 (pdftex.def)             Requested size: 247.5389pt x 107.39226pt.
- [4 <./figures/fig2_dataset_stats.png>] [5]
-Overfull \hbox (11.88202pt too wide) detected at line 232
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5 <./figures/fig2_dataset_stats.png>] [6]
+Overfull \hbox (11.88202pt too wide) detected at line 280
 [][][]\OML/cmm/m/it/10 ^^R \OT1/cmr/m/n/10 = [] [](\OT1/cmr/bx/n/10 p[] \OMS/cmsy/m/n/10 ^^@ \OT1/cmr/bx/n/10 p[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^A \OT1/cmr/m/n/10 (\OT1/cmr/bx/n/10 p[] \OMS/cmsy/m/n/10 ^^@ \OT1/cmr/bx/n/10 p[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 =\OT1/cmr/m/n/10 (\OMS/cmsy/m/n/10 k\OT1/cmr/bx/n/10 p[] \OMS/cmsy/m/n/10 ^^@ \OT1/cmr/bx/n/10 p[]\OMS/cmsy/m/n/10 kk\OT1/cmr/bx/n/10 p[] \OMS/cmsy/m/n/10 ^^@ \OT1/cmr/bx/n/10 p[]\OMS/cmsy/m/n/10 k \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 ^^O\OT1/cmr/m/n/10 )[]
  []
 
 
-Overfull \hbox (12.35083pt too wide) detected at line 237
+Overfull \hbox (12.35083pt too wide) detected at line 285
 [][][]\OML/cmm/m/it/10 r[] \OT1/cmr/m/n/10 = []  [] \OML/cmm/m/it/10 ;  [] \OT1/cmr/m/n/10 = [](\OML/cmm/m/it/10 r[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ;  ^^R \OT1/cmr/m/n/10 = \OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 [] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 []\OMS/cmsy/m/n/10 j
  []
 
-<figures/feature_importance.png, id=192, 715.2321pt x 569.7285pt>
+<figures/feature_importance.png, id=226, 715.2321pt x 569.7285pt>
 File: figures/feature_importance.png Graphic file (type png)
 <use figures/feature_importance.png>
-Package pdftex.def Info: figures/feature_importance.png  used on input line 253.
+Package pdftex.def Info: figures/feature_importance.png  used on input line 301.
 (pdftex.def)             Requested size: 247.5389pt x 197.18246pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-<figures/pca_variance.png, id=194, 570.933pt x 353.1594pt>
+<figures/pca_variance.png, id=228, 570.933pt x 353.1594pt>
 File: figures/pca_variance.png Graphic file (type png)
 <use figures/pca_variance.png>
-Package pdftex.def Info: figures/pca_variance.png  used on input line 269.
+Package pdftex.def Info: figures/pca_variance.png  used on input line 317.
 (pdftex.def)             Requested size: 247.5389pt x 153.11653pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [6 <./figures/feature_importance.png>]
-Overfull \hbox (20.89778pt too wide) in paragraph at lines 281--289
+ [7 <./figures/feature_importance.png>]
+Overfull \hbox (20.89778pt too wide) in paragraph at lines 329--337
  [][] 
  []
 
-<figures/confusion_matrices.png, id=206, 1104.5265pt x 428.5611pt>
+<figures/confusion_matrices.png, id=241, 1104.5265pt x 428.5611pt>
 File: figures/confusion_matrices.png Graphic file (type png)
 <use figures/confusion_matrices.png>
-Package pdftex.def Info: figures/confusion_matrices.png  used on input line 312.
+Package pdftex.def Info: figures/confusion_matrices.png  used on input line 360.
 (pdftex.def)             Requested size: 460.93153pt x 178.8435pt.
-<figures/quality_score_distribution.png, id=208, 722.7pt x 433.62pt>
+<figures/quality_score_distribution.png, id=243, 722.7pt x 433.62pt>
 File: figures/quality_score_distribution.png Graphic file (type png)
 <use figures/quality_score_distribution.png>
-Package pdftex.def Info: figures/quality_score_distribution.png  used on input line 325.
+Package pdftex.def Info: figures/quality_score_distribution.png  used on input line 373.
 (pdftex.def)             Requested size: 247.5389pt x 148.52057pt.
-<figures/form_evaluator_metrics.png, id=210, 578.16pt x 289.08pt>
+<figures/form_evaluator_metrics.png, id=245, 578.16pt x 289.08pt>
 File: figures/form_evaluator_metrics.png Graphic file (type png)
 <use figures/form_evaluator_metrics.png>
-Package pdftex.def Info: figures/form_evaluator_metrics.png  used on input line 335.
+Package pdftex.def Info: figures/form_evaluator_metrics.png  used on input line 383.
 (pdftex.def)             Requested size: 247.5389pt x 123.76823pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [7 <./figures/pca_variance.png> <./figures/quality_score_distribution.png>] (final_report.bbl [8 <./figures/confusion_matrices.png> <./figures/form_evaluator_metrics.png>]) [9
+ [8 <./figures/pca_variance.png> <./figures/quality_score_distribution.png>] (final_report.bbl [9 <./figures/confusion_matrices.png> <./figures/form_evaluator_metrics.png>]) [10
 
 ] (final_report.aux)
  ***********
@@ -594,20 +615,20 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2026-03-20>
  ***********
 Package rerunfilecheck Info: File `final_report.out' has not changed.
-(rerunfilecheck)             Checksum: 0DEFF160088927E8C6DF40DFE82200CB;5562.
+(rerunfilecheck)             Checksum: C7A88AC1685EF437350E65D9AA53E060;6405.
  ) 
 Here is how much of TeX's memory you used:
- 13461 strings out of 467691
- 213512 string characters out of 5414988
- 654633 words of memory out of 5000000
- 42283 multiletter control sequences out of 15000+600000
+ 13506 strings out of 467691
+ 214685 string characters out of 5414988
+ 655508 words of memory out of 5000000
+ 42319 multiletter control sequences out of 15000+600000
  641460 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,12n,79p,831b,558s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\youss\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0500.pk> <C:\Users\youss\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\youss\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\youss\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\youss\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\youss\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0900.pk> <C:\Users\youss\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\youss\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti0700.pk> <C:\Users\youss\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\youss\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0700.pk> <C:\Users\youss\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\youss\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk><C:/Users/youss/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/youss/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/youss/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/youss/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/youss/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/youss/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/youss/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/youss/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/youss/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/youss/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on final_report.pdf (9 pages, 1253169 bytes).
+Output written on final_report.pdf (10 pages, 2139288 bytes).
 PDF statistics:
- 735 PDF objects out of 1000 (max. 8388607)
- 68 named destinations out of 1000 (max. 500000)
- 249 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 777 PDF objects out of 1000 (max. 8388607)
+ 77 named destinations out of 1000 (max. 500000)
+ 301 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex final_report"] 1778264749.72327 "final_report.aux" "final_report.bbl" "final_report" 1778264754.67454 0
+["bibtex final_report"] 1778267529.04919 "final_report.aux" "final_report.bbl" "final_report" 1778267537.83624 0
   "./references.bib" 1778264690 3480 e49d6f1ddeac4f11c8d5a85b85132c23 ""
   "C:/Users/youss/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/ieeetr.bst" 1291864344 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "final_report.aux" 1778264753 8590 39de812dd13040820cbfc3e23383736b "pdflatex"
+  "final_report.aux" 1778267535 11371 e660bc1816bcdb621884f789fff010f6 "pdflatex"
   (generated)
   "final_report.bbl"
   "final_report.blg"
   (rewritten before read)
-["pdflatex"] 1778264750.22748 "d:/SBE 2027/ML/Final Project/Action_Prediction_Using-_Penn_Action/docs/final_report.tex" "final_report.pdf" "final_report" 1778264754.67602 0
+["pdflatex"] 1778267530.05184 "d:/SBE 2027/ML/Final Project/Action_Prediction_Using-_Penn_Action/docs/final_report.tex" "final_report.pdf" "final_report" 1778267537.84132 0
   "C:/Users/youss/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1778264065 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/youss/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx1000.pk" 1778264092 25420 167f3bf60cd58ea8b0f39c63e58ae667 ""
   "C:/Users/youss/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx1200.pk" 1778264078 31952 475df5567662e06aa3938240fa8c8512 ""
@@ -121,8 +121,12 @@
   "C:/Users/youss/AppData/Local/Programs/MiKTeX/tex/latex/tools/multicol.sty" 1761901070 33142 efe8f4750fc02524935e7423b4bdef69 ""
   "C:/Users/youss/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/youss/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "d:/SBE 2027/ML/Final Project/Action_Prediction_Using-_Penn_Action/docs/final_report.tex" 1778264412 34197 0fc2edbd55007c41d8aa78f56f6ebb55 ""
+  "d:/SBE 2027/ML/Final Project/Action_Prediction_Using-_Penn_Action/docs/final_report.tex" 1778267517 38632 9476e402ff045d6d33a13a65f7ccb867 ""
   "figures/confusion_matrices.png" 1778263353 177415 4540367d0efc87416c060df8ca0eae44 ""
+  "figures/failure_img_1.png" 1778266022 52930 8067d73d372da1b2efb728a694bbbb26 ""
+  "figures/failure_img_2.png" 1778266022 39658 a03a1d4a42da3a7a42930bef362ace77 ""
+  "figures/failure_img_3.png" 1778266022 502245 af924e778d809fdfba6ba18f51c2a6bb ""
+  "figures/failure_img_4.png" 1778266022 106125 7f71f1090cc7dc2aca101e582b5d65a5 ""
   "figures/feature_importance.png" 1778263353 164246 98747b8663d7738b6b69ab12dfed48f3 ""
   "figures/fig1_architecture.png" 1778257896 161877 e8b9887d9779c3c736606ddf4f6ef099 ""
   "figures/fig2_dataset_stats.png" 1778257898 89705 459a9d7cd97e8307174dc5552e0c9d06 ""
@@ -130,10 +134,10 @@
   "figures/logo.png" 1778263353 14149 7f4b162e56ae5097fcb551104835f90d ""
   "figures/pca_variance.png" 1778263353 144326 a97f858c1281f452d91ffefee6ae0381 ""
   "figures/quality_score_distribution.png" 1778263353 232493 3d2d6dd1ccfdfbe5a2634d61de3349cb ""
-  "final_report.aux" 1778264753 8590 39de812dd13040820cbfc3e23383736b "pdflatex"
-  "final_report.bbl" 1778264750 2903 35a01aad2ce3b66fd73102a8bb9248b8 "bibtex final_report"
-  "final_report.out" 1778264753 5562 0deff160088927e8c6df40dfe82200cb "pdflatex"
-  "final_report.tex" 1778264412 34197 0fc2edbd55007c41d8aa78f56f6ebb55 ""
+  "final_report.aux" 1778267535 11371 e660bc1816bcdb621884f789fff010f6 "pdflatex"
+  "final_report.bbl" 1778267529 2903 35a01aad2ce3b66fd73102a8bb9248b8 "bibtex final_report"
+  "final_report.out" 1778267535 6405 c7a88ac1685ef437350e65d9aa53e060 "pdflatex"
+  "final_report.tex" 1778267517 38632 9476e402ff045d6d33a13a65f7ccb867 ""
   (generated)
   "final_report.aux"
   "final_report.log"
