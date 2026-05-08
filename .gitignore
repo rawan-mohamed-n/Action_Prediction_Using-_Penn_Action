@@ -2,3 +2,4 @@ Penn_Action/
 venv/
 Test/
 .venv/
+__pycache__/
