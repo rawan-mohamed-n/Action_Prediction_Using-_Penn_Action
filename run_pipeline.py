@@ -2,10 +2,12 @@
 run_pipeline.py — CLI entry point for the Penn Action pipeline.
 
 Usage:
-  python run_pipeline.py --extract       Run feature extraction for all actions
-  python run_pipeline.py --train         Train models on extracted features
-  python run_pipeline.py --evaluate      Evaluate trained models
-  python run_pipeline.py --all           Run full pipeline (extract → train → evaluate)
+  python run_pipeline.py --extract        Run feature extraction for all actions
+  python run_pipeline.py --train          Train batch models on extracted features
+  python run_pipeline.py --evaluate       Evaluate trained batch models
+  python run_pipeline.py --form-train     Train form evaluator (action + quality models)
+  python run_pipeline.py --infer          Launch real-time webcam inference
+  python run_pipeline.py --all            Run full pipeline (extract -> train -> evaluate -> form-train)
 """
 
 import argparse
@@ -19,18 +21,23 @@ def main():
     parser.add_argument('--extract', action='store_true',
                         help='Run feature extraction for all actions')
     parser.add_argument('--train', action='store_true',
-                        help='Train models on extracted features')
+                        help='Train batch models on extracted features')
     parser.add_argument('--evaluate', action='store_true',
-                        help='Evaluate trained models')
+                        help='Evaluate trained batch models')
+    parser.add_argument('--form-train', action='store_true', dest='form_train',
+                        help='Train form evaluator (action classifier + quality regressor)')
+    parser.add_argument('--infer', action='store_true',
+                        help='Launch real-time webcam inference')
     parser.add_argument('--all', action='store_true',
-                        help='Run full pipeline')
+                        help='Run full pipeline (extract -> train -> evaluate -> form-train)')
     parser.add_argument('--action', type=str, default=None,
                         help='Run extraction for a specific action only')
 
     args = parser.parse_args()
 
     # Default to --all if no flags
-    if not any([args.extract, args.train, args.evaluate, args.all]):
+    if not any([args.extract, args.train, args.evaluate, args.form_train,
+                args.infer, args.all]):
         args.all = True
 
     start = time.time()
@@ -46,7 +53,7 @@ def main():
             print("\nExtracting features for all actions...")
             extract_all()
 
-    # ── TRAIN ──
+    # ── TRAIN (batch) ──
     results = None
     if args.train or args.all:
         from training import run_training_pipeline
@@ -55,18 +62,27 @@ def main():
     # ── EVALUATE ──
     if args.evaluate or args.all:
         if results is None:
-            # Need to run training first to get models
             from training import run_training_pipeline
             results = run_training_pipeline()
 
         from evaluation import run_evaluation
         metrics = run_evaluation(results)
 
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("  FINAL RESULTS")
-        print("="*60)
+        print("=" * 60)
         print(f"  Random Forest Accuracy: {metrics['rf_accuracy']*100:.2f}%")
         print(f"  SVM Accuracy:           {metrics['svm_accuracy']*100:.2f}%")
+
+    # ── FORM-TRAIN ──
+    if args.form_train or args.all:
+        from form_evaluator_training import run_form_evaluator_pipeline
+        run_form_evaluator_pipeline()
+
+    # ── INFER ──
+    if args.infer:
+        from inference import main as inference_main
+        inference_main()
 
     elapsed = time.time() - start
     print(f"\nPipeline completed in {elapsed:.1f}s")

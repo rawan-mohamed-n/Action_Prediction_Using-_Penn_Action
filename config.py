@@ -2,18 +2,54 @@
 config.py — Central configuration for the Penn Action pipeline.
 
 All paths, constants, and action-specific settings live here.
+This is the single source of truth for both the batch training
+pipeline and the real-time inference system.
 """
 
 import os
+from pathlib import Path
 
 # ─────────────────────────────────────────────────────────────────────────────
 # PATHS
 # ─────────────────────────────────────────────────────────────────────────────
 
-DATASET_ROOT = './Penn_Action/Penn_Action'
-FRAMES_DIR   = os.path.join(DATASET_ROOT, 'frames')
-LABELS_DIR   = os.path.join(DATASET_ROOT, 'labels')
-OUTPUT_DIR   = './output'
+PROJECT_ROOT  = Path(__file__).resolve().parent
+DATASET_ROOT  = './Penn_Action/Penn_Action'
+FRAMES_DIR    = os.path.join(DATASET_ROOT, 'frames')
+LABELS_DIR    = os.path.join(DATASET_ROOT, 'labels')
+OUTPUT_DIR    = './output'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODEL ARTIFACT PATHS  (produced by form_evaluator_training.py)
+# ─────────────────────────────────────────────────────────────────────────────
+
+SCALER_PATH        = PROJECT_ROOT / 'scaler.pkl'
+ACTION_MODEL_PATH  = PROJECT_ROOT / 'action_classifier.pkl'
+QUALITY_MODEL_PATH = PROJECT_ROOT / 'quality_regressor.pkl'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PER-ACTION RAW CSV DIRECTORIES
+# (form_evaluator_training reads from these)
+# ─────────────────────────────────────────────────────────────────────────────
+
+RAW_CSV_PATHS = {
+    'pushup': {
+        'angles': PROJECT_ROOT / 'Pushup'  / 'pushup_angles.csv',
+        'joints': PROJECT_ROOT / 'Pushup'  / 'pushup_joints.csv',
+    },
+    'squat': {
+        'angles': PROJECT_ROOT / 'Squat'   / 'squat_angles.csv',
+        'joints': PROJECT_ROOT / 'Squat'   / 'squat_joints.csv',
+    },
+    'jump_rope': {
+        'angles': PROJECT_ROOT / 'Jump_Rope' / 'jump_rope_angles.csv',
+        'joints': PROJECT_ROOT / 'Jump_Rope' / 'jump_rope_joints.csv',
+    },
+    'pullup': {
+        'angles': PROJECT_ROOT / 'Pullup'  / 'pullup_angles.csv',
+        'joints': PROJECT_ROOT / 'Pullup'  / 'pullup_joints.csv',
+    },
+}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # JOINT / SKELETON CONSTANTS
@@ -51,7 +87,52 @@ DEFAULT_POSE_MAP = {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
-# ACTION DEFINITIONS
+# INFERENCE FEATURE SCHEMA
+# Shared between form_evaluator_training.py and inference.py
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 8 angle keys used in both batch feature extraction and real-time inference
+ANGLE_KEYS = [
+    'L_Shoulder_Angle', 'R_Shoulder_Angle',
+    'L_Elbow_Angle',    'R_Elbow_Angle',
+    'L_Hip_Angle',      'R_Hip_Angle',
+    'L_Knee_Angle',     'R_Knee_Angle',
+]
+
+# 14 landmark keys for coordinate tracking (includes Mid_Hip)
+LANDMARK_KEYS = [
+    'Head', 'L_Sho', 'R_Sho',
+    'L_Elb', 'R_Elb', 'L_Wri', 'R_Wri',
+    'L_Hip', 'R_Hip', 'L_Kne', 'R_Kne',
+    'L_Ank', 'R_Ank', 'Mid_Hip',
+]
+
+# 60-column feature vector  (8 angles × 4 stats + 14 landmarks × 2 axes)
+FEATURE_COLS: list[str] = []
+for _angle in ANGLE_KEYS:
+    FEATURE_COLS.extend(
+        [f'{_angle}_max', f'{_angle}_min', f'{_angle}_avg', f'{_angle}_var']
+    )
+for _lm in LANDMARK_KEYS:
+    FEATURE_COLS.extend([f'{_lm}_x_std', f'{_lm}_y_std'])
+
+# Action labels (alphabetically sorted for consistent OHE)
+ACTION_LABELS: list[str] = sorted(['jump_rope', 'pullup', 'pushup', 'squat'])
+ACTION_OHE_COLS: list[str] = [f'action_{a}' for a in ACTION_LABELS]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# INFERENCE RUNTIME CONSTANTS
+# ─────────────────────────────────────────────────────────────────────────────
+
+IDLE_Y_KEYS: list[str]       = ['L_Hip_y', 'R_Hip_y', 'L_Sho_y', 'R_Sho_y']
+IDLE_VARIANCE_THRESHOLD      = 0.001
+IDLE_WINDOW_SIZE             = 5       # buffered frames checked for idleness
+INFERENCE_EVERY_N_FRAMES     = 5
+ACTION_WINDOW_SIZE           = 30      # Stage 1: fast, recency-focused
+MAIN_BUFFER_MAXLEN           = 90      # Stage 2: deep quality window
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ACTION DEFINITIONS  (batch pipeline)
 # ─────────────────────────────────────────────────────────────────────────────
 
 ACTIONS = {
