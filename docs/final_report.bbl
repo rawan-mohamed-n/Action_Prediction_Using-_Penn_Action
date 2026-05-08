@@ -1,0 +1,65 @@
+\begin{thebibliography}{10}
+
+\bibitem{fischler1973representation}
+M.~A. Fischler and R.~A. Elschlager, ``The representation and matching of
+  pictorial structures,'' {\em IEEE Transactions on Computers}, vol.~C-22,
+  pp.~67--92, 1973.
+
+\bibitem{felzenszwalb2005pictorial}
+P.~F. Felzenszwalb and D.~P. Huttenlocher, ``Pictorial structures for object
+  recognition,'' {\em International Journal of Computer Vision}, vol.~61,
+  pp.~55--79, 2005.
+
+\bibitem{yang2011articulated}
+Y.~Yang and D.~Ramanan, ``Articulated pose estimation with flexible
+  mixtures-of-parts,'' in {\em IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pp.~1385--1392, 2011.
+
+\bibitem{dalal2005histograms}
+N.~Dalal and B.~Triggs, ``Histograms of oriented gradients for human
+  detection,'' in {\em IEEE Computer Society Conference on Computer Vision and
+  Pattern Recognition (CVPR)}, vol.~1, pp.~886--893, 2005.
+
+\bibitem{stauffer1999adaptive}
+C.~Stauffer and W.~Grimson, ``Adaptive background mixture models for real-time
+  tracking,'' in {\em IEEE Computer Society Conference on Computer Vision and
+  Pattern Recognition (CVPR)}, vol.~2, pp.~246--252, 1999.
+
+\bibitem{zivkovic2004improved}
+Z.~Zivkovic, ``Improved adaptive gaussian mixture model for background
+  subtraction,'' in {\em International Conference on Pattern Recognition
+  (ICPR)}, vol.~2, pp.~28--31, 2004.
+
+\bibitem{horprasert1999statistical}
+T.~Horprasert, D.~Harwood, and L.~S. Davis, ``A statistical approach for
+  real-time robust background subtraction and shadow detection,'' in {\em IEEE
+  ICCV Frame-Rate Workshop}, vol.~99, pp.~1--19, 1999.
+
+\bibitem{sminchisescu2004kinematic}
+C.~Sminchisescu and B.~Triggs, ``Kinematic jump processes for monocular 3d
+  human tracking,'' in {\em IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, 2003.
+
+\bibitem{sigal2010humaneva}
+L.~Sigal, A.~Balan, and M.~Black, ``Humaneva: Synchronized video and motion
+  capture dataset and baseline algorithm for evaluation of articulated human
+  motion,'' {\em International Journal of Computer Vision}, vol.~87, pp.~4--27,
+  2010.
+
+\bibitem{choi2017exergame}
+S.-D. Choi, L.~Guo, D.~Kang, and S.~Xiong, ``Exergame technology and
+  interactive interventions for elderly fall prevention: A review,'' {\em
+  Applied Ergonomics}, vol.~65, pp.~570--581, 2017.
+
+\bibitem{shotton2011real}
+J.~Shotton, A.~Fitzgibbon, M.~Cook, T.~Sharp, M.~Finocchio, R.~Moore,
+  A.~Kipman, and A.~Blake, ``Real-time human pose recognition in parts from
+  single depth images,'' in {\em IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pp.~1297--1304, 2011.
+
+\bibitem{kurillo2013kinect}
+G.~Kurillo, J.~Han, {\v{S}}.~Obdr{\v{z}}{\'a}lek, and R.~Bajcsy, ``Kinect-based
+  workspace evaluation,'' {\em Technology and Health Care}, vol.~21,
+  pp.~641--653, 2013.
+
+\end{thebibliography}

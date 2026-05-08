@@ -37,7 +37,7 @@
   \AtPageUpperLeft{
     \hspace{1.5cm}\raisebox{-1.5cm}{
       % Ensure your logo is in the same folder
-      \includegraphics[height=1.5cm]{images/logo.png}
+      \includegraphics[height=1.5cm]{figures/logo.png}
     }
   }
 }
@@ -258,16 +258,11 @@ All numerical features are min-max normalized to $[0, 1]$ to prevent features wi
 \subsection{Dimensionality Reduction}
 The combined feature vector contains approximately 60 numerical dimensions. Many of these are highly correlated — left and right knee angles tend to move together, and the X-standard-deviations of adjacent joints are nearly identical. Training a model on this redundant space wastes capacity and risks overfitting.
 
-We address this in two stages. First, we compute the pairwise Pearson correlation matrix on the \textit{training set only} and remove any feature exceeding a correlation threshold of $\rho > 0.90$. As shown in Figure \ref{fig:correlation_matrix}, significant collinearity exists within distinct sub-networks (like lower body bilateral symmetry). Removing these redundant dimensions directly stabilizes model performance.
+We address this in two stages. First, we compute the pairwise Pearson correlation matrix on the \textit{training set only} and remove any feature exceeding a correlation threshold of $\rho > 0.90$. Our correlation analysis revealed significant collinearity within distinct sub-networks, particularly among symmetrical motion groups such as lower body bilateral joints. Removing these redundant dimensions directly stabilizes model performance and prevents capacity waste during model training.
 
 Second, we apply \textbf{Principal Component Analysis (PCA)}, retaining the minimum number of components that explain $\geq 95\%$ of total variance (see Figure \ref{fig:pca_variance}). This successfully compressed the operational feature space to approximately 23 principal components, effectively halving the dimensions. Both the standardization scaler and PCA are fit exclusively on training data; the test set is transformed using the learned parameters to prevent data leakage.
 
-\begin{figure*}[ht]
-    \centering
-    \includegraphics[width=0.8\textwidth]{figures/correlation_matrix.png}
-    \caption{Kinematic Feature Correlation Matrix. High collinearity ($\rho > 0.90$) within symmetrical motion groups was explicitly resolved to prevent capacity waste during model training.}
-    \label{fig:correlation_matrix}
-\end{figure*}
+
 
 \begin{figure}[H]
     \centering

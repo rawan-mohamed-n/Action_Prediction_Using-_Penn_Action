@@ -1,2 +1,74 @@
 \relax 
-\gdef \@abspage@last{1}
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{fischler1973representation}
+\citation{felzenszwalb2005pictorial}
+\citation{yang2011articulated}
+\citation{dalal2005histograms}
+\citation{stauffer1999adaptive}
+\citation{zivkovic2004improved}
+\citation{horprasert1999statistical}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Significance of the Problem}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Market Analysis}{1}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Literature Review}{1}{section.3}\protected@file@percent }
+\citation{sminchisescu2004kinematic}
+\citation{sigal2010humaneva}
+\citation{choi2017exergame}
+\citation{shotton2011real}
+\citation{kurillo2013kinect}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Challenges \& Mitigation}{2}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Proposed System Overview}{2}{section.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces System Architecture Diagram detailing the data flow from raw RGB frames through MediaPipe spatial extraction, gatekeeping, decoupled asynchronous buffers, and the dual-stage classification and quality scoring modules.}}{3}{figure.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:architecture}{{1}{3}{System Architecture Diagram detailing the data flow from raw RGB frames through MediaPipe spatial extraction, gatekeeping, decoupled asynchronous buffers, and the dual-stage classification and quality scoring modules}{figure.caption.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Machine Learning Pipeline}{3}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Module 1: Spatial Extraction \& Gatekeeping}{3}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Module 2: Decoupled Asynchronous Buffers}{3}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Module 3: Stage 1 --- Action Classification}{3}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Module 4: Stage 2 --- Kinematic Quality Scoring}{3}{subsection.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Dataset \& Strategy}{4}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Penn Action Data Structure}{4}{subsection.7.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Dataset statistics detailing the distribution of sequences across target exercises. Class imbalances were mitigated by using balanced class weighting during training.}}{4}{figure.caption.2}\protected@file@percent }
+\newlabel{fig:dataset_stats}{{2}{4}{Dataset statistics detailing the distribution of sequences across target exercises. Class imbalances were mitigated by using balanced class weighting during training}{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Preprocessing: From Raw Annotations to Clean Kinematics}{4}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.1}Visibility-Aware Loading}{4}{subsubsection.7.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.2}Mirror Symmetry Correction}{4}{subsubsection.7.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.3}Anchor-Based Relative Interpolation}{5}{subsubsection.7.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.4}Automatic Viewpoint Detection}{5}{subsubsection.7.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Feature Extraction: Kinematic Angles and Movement Statistics}{5}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.1}Baseline Frame Selection}{5}{subsubsection.7.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.2}Dual-Method Angle Computation}{5}{subsubsection.7.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.3}Sequence-Level Summarization}{6}{subsubsection.7.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Top kinematic features as weighted by the Random Forest classifier. Statistical properties representing spatial variance (e.g., standard deviation of coordinates) proved highly discriminative for mapping execution patterns.}}{6}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:feature_importance}{{3}{6}{Top kinematic features as weighted by the Random Forest classifier. Statistical properties representing spatial variance (e.g., standard deviation of coordinates) proved highly discriminative for mapping execution patterns}{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4}Dimensionality Reduction}{6}{subsection.7.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Cumulative explained variance plot for PCA. Retaining $\sim $23 components preserves 95\% of original dataset variance.}}{7}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:pca_variance}{{4}{7}{Cumulative explained variance plot for PCA. Retaining $\sim $23 components preserves 95\% of original dataset variance}{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}Classification Results}{7}{subsection.7.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Classification performance on the held-out test set (144 samples).}}{7}{table.caption.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Per-class breakdown for SVM classifier.}}{7}{table.caption.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Form Evaluation Results}{7}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Quality Score Distribution}{7}{subsection.8.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Distribution of Isolation Forest quality scores across different activities, reflecting the natural variability in unconstrained exercise execution.}}{7}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:quality_scores}{{6}{7}{Distribution of Isolation Forest quality scores across different activities, reflecting the natural variability in unconstrained exercise execution}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Real-Time Evaluation Metrics}{7}{subsection.8.2}\protected@file@percent }
+\bibstyle{ieeetr}
+\bibdata{references}
+\bibcite{fischler1973representation}{1}
+\bibcite{felzenszwalb2005pictorial}{2}
+\bibcite{yang2011articulated}{3}
+\bibcite{dalal2005histograms}{4}
+\bibcite{stauffer1999adaptive}{5}
+\bibcite{zivkovic2004improved}{6}
+\bibcite{horprasert1999statistical}{7}
+\bibcite{sminchisescu2004kinematic}{8}
+\bibcite{sigal2010humaneva}{9}
+\bibcite{choi2017exergame}{10}
+\bibcite{shotton2011real}{11}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Confusion Matrices comparing Random Forest and SVM. Minor overlap exists between pushup and pullup classes, representing challenges in geometric ambiguity given unconstrained viewpoint variability.}}{8}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:confusion_matrices}{{5}{8}{Confusion Matrices comparing Random Forest and SVM. Minor overlap exists between pushup and pullup classes, representing challenges in geometric ambiguity given unconstrained viewpoint variability}{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Precision, Recall, and F1-Score breakdown for the real-time Action Classifier used by the Form Evaluator logic module.}}{8}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:evaluator_metrics}{{7}{8}{Precision, Recall, and F1-Score breakdown for the real-time Action Classifier used by the Form Evaluator logic module}{figure.caption.9}{}}
+\bibcite{kurillo2013kinect}{12}
+\gdef \@abspage@last{9}
