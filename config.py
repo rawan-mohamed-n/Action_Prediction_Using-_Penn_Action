@@ -13,6 +13,7 @@ import os
 DATASET_ROOT = './Penn_Action/Penn_Action'
 FRAMES_DIR   = os.path.join(DATASET_ROOT, 'frames')
 LABELS_DIR   = os.path.join(DATASET_ROOT, 'labels')
+OUTPUT_DIR   = './output'
 
 # ─────────────────────────────────────────────────────────────────────────────
 # JOINT / SKELETON CONSTANTS
@@ -56,7 +57,7 @@ DEFAULT_POSE_MAP = {
 ACTIONS = {
     'jump_rope': {
         'keywords': ['jump_rope'],
-        'range': (1, 2327),
+        'range': (955, 1036),
         'interpolation': 'single',     # Single-anchor (Head only)
         'use_symmetry': True,
         'viewpoint_threshold': 0.45,
@@ -64,7 +65,7 @@ ACTIONS = {
     },
     'squat': {
         'keywords': ['squat'],
-        'range': (1, 2327),
+        'range': (1659, 1889),
         'interpolation': 'dual',       # Dual-anchor (Head + Mid-Hip)
         'use_symmetry': True,
         'viewpoint_threshold': 0.45,
@@ -72,7 +73,7 @@ ACTIONS = {
     },
     'pushup': {
         'keywords': ['pushup', 'pushups'],
-        'range': (1, 2327),
+        'range': (1348, 1557),
         'interpolation': 'dual',
         'use_symmetry': True,
         'viewpoint_threshold': 0.45,
@@ -80,7 +81,7 @@ ACTIONS = {
     },
     'pullup': {
         'keywords': ['pullup', 'pullups'],
-        'range': (1, 2327),
+        'range': (1149, 1347),
         'interpolation': 'single',
         'use_symmetry': True,
         'viewpoint_threshold': 0.40,
@@ -92,6 +93,16 @@ ACTIONS = {
 # OUTPUT FILES
 # ─────────────────────────────────────────────────────────────────────────────
 
-def joints_csv(action):    return f'{action}_joints.csv'
-def angles_csv(action):    return f'{action}_angles.csv'
-def summary_csv(action):   return f'{action}_normalized_summary.csv'
+def action_output_dir(action):
+    """Return the output directory for a specific action, creating it if needed."""
+    path = os.path.join(OUTPUT_DIR, action)
+    os.makedirs(path, exist_ok=True)
+    return path
+
+def ensure_output_dir():
+    """Ensure the root output directory exists."""
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+def joints_csv(action):    return os.path.join(action_output_dir(action), f'{action}_joints.csv')
+def angles_csv(action):    return os.path.join(action_output_dir(action), f'{action}_angles.csv')
+def summary_csv(action):   return os.path.join(action_output_dir(action), f'{action}_normalized_summary.csv')

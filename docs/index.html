@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Action Prediction — Penn Action Classification Pipeline</title>
+    <meta name="description" content="Camera-based exercise classification achieving 95% accuracy using kinematic features from the Penn Action dataset.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-card-hover: #1a1a28;
+            --border: #1e1e2e;
+            --text: #e4e4ef;
+            --text-muted: #8888a0;
+            --accent: #6c5ce7;
+            --accent-glow: rgba(108, 92, 231, 0.25);
+            --accent2: #00cec9;
+            --accent2-glow: rgba(0, 206, 201, 0.2);
+            --green: #00b894;
+            --orange: #fdcb6e;
+            --red: #e17055;
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ── Animated background ── */
+        .bg-grid {
+            position: fixed; inset: 0; z-index: 0;
+            background-image:
+                linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+        .bg-glow {
+            position: fixed; top: -30%; left: -10%; width: 600px; height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(80px); z-index: 0; pointer-events: none;
+            animation: floatGlow 12s ease-in-out infinite alternate;
+        }
+        .bg-glow-2 {
+            position: fixed; bottom: -20%; right: -10%; width: 500px; height: 500px;
+            background: radial-gradient(circle, var(--accent2-glow) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(80px); z-index: 0; pointer-events: none;
+            animation: floatGlow 15s ease-in-out infinite alternate-reverse;
+        }
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(60px, 40px) scale(1.15); }
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+        /* ── Hero ── */
+        .hero {
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 16px; border-radius: 100px;
+            background: rgba(108,92,231,0.12); border: 1px solid rgba(108,92,231,0.25);
+            font-size: 0.82rem; font-weight: 500; color: var(--accent);
+            margin-bottom: 28px; letter-spacing: 0.02em;
+        }
+        .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            font-weight: 800; line-height: 1.15;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, var(--accent2) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.15rem; color: var(--text-muted); max-width: 640px;
+            margin: 0 auto 36px; line-height: 1.7;
+        }
+        .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 13px 28px; border-radius: 12px; font-size: 0.95rem;
+            font-weight: 600; text-decoration: none; transition: all 0.25s;
+            cursor: pointer; border: none;
+        }
+        .btn-primary {
+            background: var(--accent); color: #fff;
+            box-shadow: 0 4px 24px var(--accent-glow);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px var(--accent-glow); }
+        .btn-outline {
+            background: transparent; color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* ── Stats bar ── */
+        .stats-bar {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px; margin: 50px 0 70px;
+        }
+        .stat-card {
+            text-align: center; padding: 28px 16px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius);
+            transition: all 0.3s;
+        }
+        .stat-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .stat-num {
+            font-size: 2rem; font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+
+        /* ── Sections ── */
+        section { margin-bottom: 80px; }
+        .section-label {
+            font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.12em; color: var(--accent); margin-bottom: 10px;
+        }
+        .section-title {
+            font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px;
+        }
+        .section-desc { color: var(--text-muted); max-width: 700px; margin-bottom: 32px; }
+
+        /* ── Cards grid ── */
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+        .card {
+            padding: 28px; background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius); transition: all 0.3s;
+        }
+        .card:hover { border-color: rgba(108,92,231,0.4); background: var(--bg-card-hover); transform: translateY(-2px); }
+        .card-icon { font-size: 1.6rem; margin-bottom: 14px; }
+        .card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
+        .card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; }
+
+        /* ── Pipeline diagram ── */
+        .pipeline {
+            display: flex; flex-direction: column; gap: 0;
+            position: relative; padding-left: 32px;
+        }
+        .pipeline::before {
+            content: ''; position: absolute; left: 11px; top: 24px; bottom: 24px;
+            width: 2px; background: linear-gradient(to bottom, var(--accent), var(--accent2));
+            border-radius: 2px;
+        }
+        .pipeline-step {
+            position: relative; padding: 20px 24px; margin-bottom: 12px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius-sm); transition: all 0.3s;
+        }
+        .pipeline-step:hover { border-color: rgba(108,92,231,0.4); }
+        .pipeline-step::before {
+            content: ''; position: absolute; left: -27px; top: 28px;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: var(--accent); border: 3px solid var(--bg);
+        }
+        .pipeline-step h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
+        .pipeline-step .step-meta { font-size: 0.8rem; color: var(--accent2); font-family: 'JetBrains Mono', monospace; margin-bottom: 6px; }
+        .pipeline-step p { font-size: 0.88rem; color: var(--text-muted); }
+
+        /* ── Results table ── */
+        .results-table {
+            width: 100%; border-collapse: collapse;
+            background: var(--bg-card); border-radius: var(--radius);
+            overflow: hidden; border: 1px solid var(--border);
+        }
+        .results-table th {
+            padding: 14px 20px; text-align: left; font-size: 0.82rem;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+            color: var(--text-muted); background: rgba(108,92,231,0.06);
+            border-bottom: 1px solid var(--border);
+        }
+        .results-table td {
+            padding: 14px 20px; font-size: 0.92rem; border-bottom: 1px solid var(--border);
+        }
+        .results-table tr:last-child td { border-bottom: none; }
+        .results-table tr:hover td { background: rgba(108,92,231,0.04); }
+        .badge-acc {
+            display: inline-block; padding: 3px 10px; border-radius: 6px;
+            font-weight: 700; font-size: 0.88rem; font-family: 'JetBrains Mono', monospace;
+        }
+        .badge-acc.high { background: rgba(0,184,148,0.15); color: var(--green); }
+
+        /* ── Code block ── */
+        .code-block {
+            background: #0d0d14; border: 1px solid var(--border);
+            border-radius: var(--radius-sm); padding: 20px 24px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+            line-height: 1.8; overflow-x: auto; color: var(--text-muted);
+        }
+        .code-block .cmd { color: var(--accent2); }
+        .code-block .comment { color: #555570; }
+
+        /* ── Tree structure ── */
+        .tree {
+            background: #0d0d14; border: 1px solid var(--border);
+            border-radius: var(--radius-sm); padding: 24px 28px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
+            line-height: 1.9; color: var(--text-muted); overflow-x: auto;
+        }
+        .tree .file { color: var(--text); }
+        .tree .dir { color: var(--accent); font-weight: 600; }
+        .tree .desc { color: #555570; }
+
+        /* ── Footer ── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 0; text-align: center;
+            color: var(--text-muted); font-size: 0.85rem;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        /* ── Mobile ── */
+        @media (max-width: 640px) {
+            .hero { padding: 60px 0 40px; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .pipeline { padding-left: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+
+    <div class="container">
+
+        <!-- ── Hero ── -->
+        <header class="hero">
+            <div class="hero-badge"><span class="dot"></span> Penn Action Classification Pipeline</div>
+            <h1>Action Prediction<br>from 2D Joint Kinematics</h1>
+            <p>A modular Python pipeline that classifies rehabilitation exercises from raw skeletal data — achieving <strong>95.14% accuracy</strong> using classical ML on engineered kinematic features.</p>
+            <div class="hero-actions">
+                <a href="https://github.com/rawan-mohamed-n/Action_Prediction_Using-_Penn_Action" class="btn btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    View on GitHub
+                </a>
+                <a href="#pipeline" class="btn btn-outline">Explore Pipeline ↓</a>
+            </div>
+        </header>
+
+        <!-- ── Stats ── -->
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-num">95.14%</div>
+                <div class="stat-label">SVM Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">94.44%</div>
+                <div class="stat-label">Random Forest Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">4</div>
+                <div class="stat-label">Exercise Classes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">~60</div>
+                <div class="stat-label">Kinematic Features</div>
+            </div>
+        </div>
+
+        <!-- ── Preprocessing ── -->
+        <section>
+            <div class="section-label">Preprocessing</div>
+            <h2 class="section-title">Turning Raw Annotations into Clean Kinematics</h2>
+            <p class="section-desc">Penn Action data has occluded joints, missing coordinates, and viewpoint variation. Four preprocessing stages handle each challenge.</p>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">🔍</div>
+                    <h3>Visibility-Aware Loading</h3>
+                    <p>Occluded joints are set to NaN rather than trusting corrupted coordinates. Honest missing data beats confident wrong data.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🪞</div>
+                    <h3>Mirror Symmetry</h3>
+                    <p>For front-facing poses, missing joints are estimated by reflecting visible contralateral joints across the head's vertical axis.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚓</div>
+                    <h3>Anchor-Based Interpolation</h3>
+                    <p>Joints are converted to body-relative coordinates before interpolation — preventing "sliding" artifacts when the subject translates.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📐</div>
+                    <h3>Viewpoint Detection</h3>
+                    <p>Automatically classifies camera angle (Front/Back vs Side) using the shoulder-width to torso-height ratio. Determines which angle method to use.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Feature Extraction ── -->
+        <section>
+            <div class="section-label">Feature Extraction</div>
+            <h2 class="section-title">8 Kinematic Angles × Summary Statistics</h2>
+            <p class="section-desc">Eight joint angles computed per frame using viewpoint-aware methods, then compressed into fixed-length feature vectors.</p>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">📏</div>
+                    <h3>Baseline Frame</h3>
+                    <p>Reference frame where limbs are at natural length — max body height (standing) or max arm extension (hanging for pullups).</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔢</div>
+                    <h3>Dual Angle Methods</h3>
+                    <p><strong>Side view:</strong> vector dot-product. <strong>Front view:</strong> arcsin ratio estimating 3D bend from 2D foreshortening.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>Sequence Summary</h3>
+                    <p>32 angle features (max/min/mean/var × 8 angles) + 26 movement features (std of each coordinate). Fixed-length per sequence.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚖️</div>
+                    <h3>Normalization</h3>
+                    <p>Min-max scaling to [0,1]. Correlation removal (ρ &gt; 0.90) and PCA (95% variance) reduce dimensionality before training.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Pipeline ── -->
+        <section id="pipeline">
+            <div class="section-label">Architecture</div>
+            <h2 class="section-title">Modular Pipeline Design</h2>
+            <p class="section-desc">Six Python modules, each with a single responsibility. Run individually or orchestrate end-to-end via CLI.</p>
+            <div class="pipeline">
+                <div class="pipeline-step">
+                    <div class="step-meta">config.py</div>
+                    <h4>Central Configuration</h4>
+                    <p>All paths, joint definitions, skeleton topology, and per-action settings (sequence ranges, interpolation strategy, viewpoint thresholds).</p>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-meta">preprocessing.py</div>
+                    <h4>Raw Data → Clean DataFrames</h4>
+                    <p>.mat loading, visibility masking, mirror symmetry, single/dual anchor interpolation, viewpoint detection, baseline frame selection.</p>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-meta">feature_extraction.py</div>
+                    <h4>Clean Data → Feature CSVs</h4>
+                    <p>Batch processes all sequences per action: computes baselines, kinematic angles, exports joints/angles CSVs, summarizes and normalizes.</p>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-meta">training.py</div>
+                    <h4>Features → Trained Models</h4>
+                    <p>Loads all action summaries, one-hot encodes, removes correlated features, applies PCA, trains Random Forest and SVM.</p>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-meta">evaluation.py</div>
+                    <h4>Models → Reports & Plots</h4>
+                    <p>Classification reports, side-by-side confusion matrices, feature importance, PCA variance, correlation heatmap — all saved to output/.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Results ── -->
+        <section>
+            <div class="section-label">Performance</div>
+            <h2 class="section-title">Classification Results</h2>
+            <p class="section-desc">Both models trained on PCA-reduced kinematic features. Evaluated on a held-out 20% stratified test set (144 samples).</p>
+
+            <table class="results-table" style="margin-bottom:24px;">
+                <thead>
+                    <tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SVM (RBF)</strong></td>
+                        <td><span class="badge-acc high">95.14%</span></td>
+                        <td>0.96</td><td>0.95</td><td>0.95</td>
+                    </tr>
+                    <tr>
+                        <td>Random Forest</td>
+                        <td><span class="badge-acc high">94.44%</span></td>
+                        <td>0.95</td><td>0.94</td><td>0.94</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="results-table">
+                <thead>
+                    <tr><th>Action</th><th>Precision</th><th>Recall</th><th>F1</th><th>Support</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Jump Rope</td><td>1.00</td><td>0.94</td><td>0.97</td><td>16</td></tr>
+                    <tr><td>Pullup</td><td>0.90</td><td>0.95</td><td>0.93</td><td>40</td></tr>
+                    <tr><td>Pushup</td><td>1.00</td><td>0.90</td><td>0.95</td><td>42</td></tr>
+                    <tr><td>Squat</td><td>0.94</td><td>1.00</td><td>0.97</td><td>46</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- ── Quick Start ── -->
+        <section>
+            <div class="section-label">Getting Started</div>
+            <h2 class="section-title">Run in 3 Commands</h2>
+            <div class="code-block">
+                <span class="comment"># Install dependencies</span><br>
+                <span class="cmd">pip install</span> -r requirements.txt<br><br>
+                <span class="comment"># Run the full pipeline</span><br>
+                <span class="cmd">python</span> run_pipeline.py --all<br><br>
+                <span class="comment"># Or run individual stages</span><br>
+                <span class="cmd">python</span> run_pipeline.py --extract<br>
+                <span class="cmd">python</span> run_pipeline.py --train<br>
+                <span class="cmd">python</span> run_pipeline.py --evaluate<br>
+            </div>
+        </section>
+
+        <!-- ── Output structure ── -->
+        <section>
+            <div class="section-label">Output</div>
+            <h2 class="section-title">Generated File Structure</h2>
+            <div class="tree">
+                <span class="dir">output/</span><br>
+                ├── <span class="dir">jump_rope/</span><br>
+                │&nbsp;&nbsp; ├── <span class="file">jump_rope_joints.csv</span><br>
+                │&nbsp;&nbsp; ├── <span class="file">jump_rope_angles.csv</span><br>
+                │&nbsp;&nbsp; └── <span class="file">jump_rope_normalized_summary.csv</span><br>
+                ├── <span class="dir">squat/</span><br>
+                │&nbsp;&nbsp; └── <span class="desc">... (same structure)</span><br>
+                ├── <span class="dir">pushup/</span><br>
+                ├── <span class="dir">pullup/</span><br>
+                ├── <span class="file">confusion_matrices.png</span> <span class="desc">← both models side-by-side</span><br>
+                ├── <span class="file">feature_importance.png</span><br>
+                ├── <span class="file">pca_variance.png</span><br>
+                └── <span class="file">correlation_matrix.png</span>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ── Footer ── -->
+    <footer>
+        <div class="container">
+            <p>Built by <strong>Ahmed Loay</strong>, <strong>Mo'men Mohamed</strong>, <strong>Rawan Mohamed</strong> &amp; <strong>Youssef Mohamed</strong></p>
+            <p style="margin-top: 6px;">Cairo University, Faculty of Engineering &nbsp;·&nbsp; <a href="https://github.com/rawan-mohamed-n/Action_Prediction_Using-_Penn_Action">GitHub Repository</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>

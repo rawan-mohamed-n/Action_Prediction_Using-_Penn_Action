@@ -3,3 +3,4 @@ venv/
 Test/
 .venv/
 __pycache__/
+output/
